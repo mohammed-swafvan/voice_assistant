@@ -1,1 +1,2 @@
-const openApiKkey = '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';
+const String openApiKey = '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';
+const String baseUrl = 'https://api.openai.com/v1';
