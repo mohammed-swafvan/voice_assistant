@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:allen/api/secrets.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,24 +10,23 @@ class OpenAIServices {
       final response = await http.post(
         Uri.parse('$baseUrl/chat/completions'),
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $openApiKey',
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $openApiKey",
         },
         body: jsonEncode(
           {
-            'model': 'gpt-3.5-turbo',
-            'messages': [
+            "model": "gpt-3.5-turbo",
+            "messages": [
               {
-                'role': 'user',
-                'content':
-                    'Does this message want to generate an AI picture, image, art or anything similar? $prompt . Simply answer with a yes or no.',
+                "role": "user",
+                "content":
+                    "Does this message want to generate an AI picture, image, art or anything similar? $prompt . Simply answer with a yes or no.",
               },
             ],
           },
         ),
       );
-      print('status code: ${response.statusCode}');
-      print(response.body);
+
       if (response.statusCode == 200) {
         String content = jsonDecode(response.body)['choices'][0]['message']['content'];
         content = content.trim();

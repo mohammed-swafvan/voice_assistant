@@ -1,5 +1,6 @@
 import 'package:allen/presentation/utils/colors.dart';
 import 'package:allen/presentation/widgets/features_box_widget.dart';
+import 'package:allen/presentation/widgets/floating_button_widget.dart';
 import 'package:allen/presentation/widgets/virtual_assistant_widget.dart';
 import 'package:allen/provider/allen_provider.dart';
 import 'package:animate_do/animate_do.dart';
@@ -134,33 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: Consumer<AllenProvider>(builder: (context, value, _) {
-        return ZoomIn(
-          delay: Duration(milliseconds: value.delay * 4),
-          child: FloatingActionButton(
-            onPressed: () async {
-              if (await value.speechText.hasPermission && value.speechText.isNotListening) {
-                await value.startListening();
-              } else if (value.speechText.isListening) {
-                final String speech = await value.openAIServices.isArtPromptAPI(value.lastWords);
-                if (speech.contains('https')) {
-                  value.itISImageUrl(speech);
-                } else {
-                  value.itIsContent(speech);
-                  await value.systemSpeak(speech);
-                }
-                await value.stopListening();
-              } else {
-                await value.initSpeechToText();
-              }
-            },
-            backgroundColor: CustomColors.firstSuggestionBoxColor,
-            child: Icon(
-              value.speechText.isListening ? Icons.stop : Icons.mic,
-            ),
-          ),
-        );
-      }),
+      floatingActionButton: const FloatingButtonWidget(),
     );
   }
 }
